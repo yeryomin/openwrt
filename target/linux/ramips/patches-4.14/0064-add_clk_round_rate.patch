@@ -1,0 +1,15 @@
+--- a/arch/mips/ralink/clk.c
++++ b/arch/mips/ralink/clk.c
+@@ -72,6 +72,12 @@ long clk_round_rate(struct clk *clk, uns
+ }
+ EXPORT_SYMBOL_GPL(clk_round_rate);
+ 
++long clk_round_rate(struct clk *clk, unsigned long rate)
++{
++	return -1;
++}
++EXPORT_SYMBOL_GPL(clk_round_rate);
++
+ void __init plat_time_init(void)
+ {
+ 	struct clk *clk;
