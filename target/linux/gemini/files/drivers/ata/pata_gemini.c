@@ -145,7 +145,7 @@ static void gemini_set_piomode(struct ata_port *ap, struct ata_device *adev)
 
 unsigned int gemini_qc_issue(struct ata_queued_cmd *qc)
 {
-	ledtrig_ide_activity();
+	ledtrig_disk_activity();
 	return ata_bmdma_qc_issue(qc);
 }
 

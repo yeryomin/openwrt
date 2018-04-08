@@ -759,7 +759,7 @@ static unsigned int toe_fill_freeq(struct toe_private *toe, int reset)
 	while (pn != epn) {
 		page = toe->freeq_page_tab[pn];
 
-		if (atomic_read(&page->_count) > 1) {
+		if (atomic_read(&page->_refcount) > 1) {
 			unsigned int fl = (pn -epn) & m_pn;
 
 			if (fl > 64 >> fpp_order)
@@ -770,7 +770,7 @@ static unsigned int toe_fill_freeq(struct toe_private *toe, int reset)
 				break;
 		}
 
-		atomic_add(1 << fpp_order, &page->_count);
+		atomic_add(1 << fpp_order, &page->_refcount);
 		count += 1 << fpp_order;
 		pn++;
 		pn &= m_pn;
@@ -864,7 +864,7 @@ static void toe_cleanup_freeq(struct toe_private *toe)
 		dma_unmap_single(toe->dev, mapping, frag_len, DMA_FROM_DEVICE);
 
 		page = toe->freeq_page_tab[pn];
-		while (atomic_read(&page->_count) > 0)
+		while (atomic_read(&page->_refcount) > 0)
 			put_page(page);
 	}
 
